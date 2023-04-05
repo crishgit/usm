@@ -2,19 +2,6 @@
 #include<string>
 using namespace std;
 
-int get_user_input(string consoleMsg, /* checksConditions*/, string errorMsg){
-	// get_user_input("Coloca el monto", yearLast >= yearFirst, "monto incorrecto");
-	/*
-	Los while usan: 
-	1) mensaje de pedido (argumento)
-	2) comprobación de que el valor es correcto (argumento)
-	3) mensaje de error (argumento y un default)
-	4) return del valor correcto
-	4.1) ciclo continuado hasta el valor correcto
-	*/
-	return 0;
-};
-
 int first_week_day_year(int year){
 	// base: 1922 Sunday-07
 	// Calculate the year difference to the base, get the leap years and no leap years based in formules
