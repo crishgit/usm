@@ -46,8 +46,10 @@ int main(){
             // day range
             int monthLong = get_month_long(userMonth, userYear);
             for(int day = 1; day <= monthLong; day++){
+                // cout << day << " ";
 
             };
+            // cout << endl;
         };
         
     };
