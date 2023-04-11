@@ -1,3 +1,18 @@
+/* 
+This program creates the calendar for a range of years given by the user. 
+
+Steps:
+1. First, the user enter a range of year
+2. Then, the program print the calendar for each year in the range
+3. For each year, the program print the calendar for each month
+4. For each month, the program print the calendar for each day
+5. The program will print the months in the form of a table
+   the header of the table will be the days of the week
+   the body of the table will be the days of the month with spaces
+6. After each month, stop the program until the user press any key
+*/
+// Cristian Hernández (05/04/2023) (USM Student)
+
 #include<iostream>
 #include<string>
 using namespace std;
@@ -111,6 +126,12 @@ void pause_program(){
 }
 */
 
+void print_year(int year){
+	cout << "Año " << year;
+	if(year_is_leap(year)){cout << " (Bisiesto)";}
+	cout << endl;
+}
+
 void pause_clear_program(){
     system("pause");
     system("cls");
@@ -125,6 +146,7 @@ int main(){
 
 	cout << "Este programa crea el calendario para un rango de años dado por el usuario. El primer año debe ser mayor a 0." << endl << endl ;
 	//user range >>
+	// first year
 	while(yearFirstIncorrect){
 		cout << "Introduzca el primer año (no puede ser menor al 1922): ";
 		cin >> yearFirst;
@@ -134,6 +156,7 @@ int main(){
 		else cout << "Año incorrecto. ";
 	};
 
+	// last year
 	while(yearLastIncorrect){
 		cout << "Introduzca el último año. Debe ser mayor o igual que el anterior: ";
 		cin >> yearLast;
@@ -147,8 +170,9 @@ int main(){
 	// year range
 	weekDay = first_week_day_year(yearFirst);
 	for(yearNumber = yearFirst; yearNumber <= yearLast; yearNumber++){
-		if(year_is_leap(yearNumber)){cout << "Año " << yearNumber << " (Bisiesto)" << endl;}
-		else cout << "Año " << yearNumber << endl;
+		// print the year in the format of: "Año 2018" 
+		// or "Año 2020 (Bisiesto)" if year is leap
+		print_year(yearNumber);
 
 		// month range
 		for(monthNumber = 1; monthNumber <= 12; monthNumber++){
