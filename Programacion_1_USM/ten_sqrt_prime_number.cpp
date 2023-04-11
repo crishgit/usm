@@ -70,7 +70,7 @@ int main(){
     };
 
     // impress the sqrtPrimeSevenValues
-    for (int i = 0; i <= sizeOf; i++){
+    for (int i = 0; i <= 9; i++){
         cout << sqrtPrimeSevenValues[i] << " ";
     }
 
