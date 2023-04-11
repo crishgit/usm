@@ -103,14 +103,22 @@ int increase_weekDay(int weekDay){
 	return weekDay;
 };
 
+/* 
+void pause_program(){
+    cout << "Press [ENTER] to continue..."; 
+    string buffer; 
+    getline(cin, buffer); 
+}
+*/
+
 void pause_clear_program(){
-	system("pause");
-	system("cls");
+    system("pause");
+    system("cls");
 }
 
 int main(){
 	int yearFirst, yearLast, dayNumber, monthNumber, yearNumber;
-	int weekDay; // start in Monday-1 and finish in Sunday-8
+	int weekDay; // start in Monday-1 and finish in Sunday-7
 	string monthName[12] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 	bool yearFirstIncorrect = true;
 	bool yearLastIncorrect = true;
