@@ -43,7 +43,7 @@ int main(){
 	int monthCounter, dayCounter, monthLong; int weekDay = 1;
 	cout << "Calendario Año 2023" << endl;
 	for (monthCounter = 1; monthCounter <= 12; monthCounter++){
-		month_long = get_month_long(monthCounter, 2023);
+		monthLong = get_month_long(monthCounter, 2023);
 
 		cout << endl << "mes: " << monthCounter << endl;
 
