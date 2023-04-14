@@ -2,13 +2,6 @@
 Este programa presenta en pantalla los primeros veinte (20) números que al 
 sacarle la raíz cuadrada el resultado sea un número: entero, primo y termina en 7
 
-Pasos:
-1. Inicializar las variables de inicio y contador.
-2. Mostrar el encabezado de la tabla.
-3. Inicializar el iterador.
-4. Ir comprobando de número en número hasta obtener los 20 números que cumplan las condiciones.
-5. Las condiciones son que la raíz sea: entera, primo y termine en 7.
-6. Mostrar el número y su raíz cuadrada.
 */
 // Autor: Cristian Hernández, 28481734 (12/04/2024) (Programación 1)
 
@@ -17,12 +10,8 @@ Pasos:
 using namespace std;
 
 bool number_is_int(float number){
-    // Comprueba si un número es un entero.
-    // Input: un número float
-    // Output: true si es un entero, false si no lo es.
-
-    // Funcionamiento: Convierte el número a un entero y lo compara con el número original
-    // Si la diferencia entre el número y el entero es igual a 0, el número es un entero.
+    // Input: a float number
+    // Output: true if the number is an integer, false if not
 
     int numberINT = number;
     if((number - numberINT) == 0){
@@ -32,15 +21,8 @@ bool number_is_int(float number){
 }
 
 bool int_is_prime(int number){
-    // Comprueba si un número es primo.
-    // Input: un número entero
-    // Output: true si es primo, false si no lo es.
-
-    // Funcionamiento: Comprueba si el número es menor o igual a 1, si lo es devuelve false.
-    // Si no lo es, comprueba si el número es divisible entre cualquier número entre 2 y la raíz cuadrada del número.
-    // Si el número es divisible entre alguno de estos números, devuelve false.
-    // (significa que existe un número menor que la raíz cuadrada del número que lo divide)
-    // Si el número no es divisible entre ninguno de estos números, devuelve true.
+    // Input: a integer number
+    // Output: true if the number is prime, false if not
 
     if((number <= 1)){
         return false;
@@ -56,12 +38,8 @@ bool int_is_prime(int number){
 };
 
 bool int_end_in_N(int integer, int endNumber){
-    // Comprueba si un número entero termina en un número determinado.
-    // Input: un número entero y un número entero que representa el último dígito del número.
-    // Output: true si el número entero termina en el número dado, false si no lo hace.
-
-    // Funcionamiento: Obtiene el último dígito del número entero y lo compara con el número dado.
-    // Obtiene el último dígito del número entero al hacer la operación mod 10.
+    // Input: a integer number and a integer number to check if the integer ends in it
+    // Output: true if the integer ends in the number, false if not
 
     int integerLastDigit = integer % 10;
 
@@ -71,34 +49,58 @@ bool int_end_in_N(int integer, int endNumber){
     else return false;
 };
 
-int main(){
-    // Inicializa las variables de inicio y contador.
-    int startNumber = 100000;
-    int numbersFinded = 0;
+int closest_greater_sqrt(int number){
+    // Input: a integer number
+    // Output: the closest greater integer square root of the number
 
-    // Muestra el encabezado de la tabla.
+    float sqrtNumber = sqrt(number);
+    if(number_is_int(sqrtNumber)){
+        return sqrtNumber;
+    }
+    else return ceil(sqrtNumber);
+}
+
+int closest_greater_endN(int number, int endNumber){
+    // Input: a integer number and a integer number to check if the integer ends in it
+    // Output: the closest greater integer that ends in the number
+
+    int closestGreater = number;
+    while(!int_end_in_N(closestGreater, endNumber)){
+        closestGreater++;
+    };
+    return closestGreater;
+}
+
+int main(){
+    int startNumber = 100000;
+    
+    // Table header
     cout << "Número - Raíz Cuadrada (Primo que termina en siete)" << endl;
 
-    // Inicializa el iterador en el número de inicio.
-    double itinerator = startNumber;
+    /* 
+    Find the 20 numbers that meet the conditions
+    This algorithm is based on the fact that the we search numbers who
+    square root are integer, are prime and ends in 7
 
-    // Se ejecutará hasta obtener 20 números.
-    while(numbersFinded < 20){
-        double itineratorSqrt = sqrt(itinerator);
+    Numbers whose square root are integer are the numbers who follow N = (integer)^2
+    so the desired numbers are those who ends in 7 and are prime
+    starting for the integer who square power are greater than the startNumber
 
-        // Chequea si la raíz del número es entera, prima y termina en 7
-        if(number_is_int(itineratorSqrt)){
-            if(int_is_prime(itineratorSqrt) & int_end_in_N(itineratorSqrt, 7)){
-                // Si lo es, muestra el número y su raíz separado por un guión.
-                // Aumenta el contador de números encontrados.
-                cout << itinerator << " - " << itineratorSqrt << endl;
-                numbersFinded++;
-            };
-        };
+    The loop start searching for that number, next it
+    search for the closest greater integer to that number who ends in 7
+    And the loop increases the number 10 by 10 to preserve the "ends in 7" condition
+    */
+    int numbersFinded = 0;
+    int closestGreaterSqrtEnd7 = closest_greater_endN(closest_greater_sqrt(startNumber), 7);
 
-        // Aumenta el número a revisar, para revisar el siguiente.
-        itinerator++;
-    };
+    for(int i = closestGreaterSqrtEnd7; numbersFinded < 20; i+=10){
+        if(int_is_prime(i)){
+            // Print the number who squareroot are integer, is prime and ends in 7
+            // with its square root
+            cout << pow(i, 2) << " - " << i << endl;
+            numbersFinded++;
+        }
+    }
 
     return 0;
 };
