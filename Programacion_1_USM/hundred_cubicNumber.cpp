@@ -25,14 +25,16 @@ int get_user_input_basic(string messageCout){
 
 void end_status_program(int valueCounter){
     // Based on the numbers finded, print a status message at the end of the program
+    cout << endl;
+
     if(valueCounter == 0){
         cout << "No se encontraron números en el rango ingresado." << endl;
     }
-    else if(valueCounter < 50){
+    else if(valueCounter < 100){
         cout << "Se encontraron " << valueCounter << " en el rango ingresado." << endl;
     }
-    else if(valueCounter == 50){
-        cout << "Se encontraron 50 números en el rango ingresado." << endl;
+    else if(valueCounter == 100){
+        cout << "Se encontraron 100 números en el rango ingresado." << endl;
     };
 }
 
@@ -64,13 +66,15 @@ int main(){
     // that's because, only odd numbers have a odd cubic power
     // We are adding the number**3 to the array, because the number is the cubic root
     // Last, stop when the array is full
-    double long startNumberSearch = ceil(pow(startUserNumber, 1.0/3.0));
-    double long endNumberSearch = floor(pow(endUserNumber, 1.0/3.0));
-    for(int i = startNumberSearch; i <= endNumberSearch; i++){
-        if (i % 2 != 0){
-            numbersCubicRoot[counter] = pow(i, 3);
-            counter++;
-        };
+    int long startNumberSearch = ceil(pow(startUserNumber, 1.0/3.0));
+    int long endNumberSearch = floor(pow(endUserNumber, 1.0/3.0));
+    // ternary operator to check if the number is odd
+    startNumberSearch = (startNumberSearch % 2 == 0) ? (startNumberSearch + 1) : (startNumberSearch);
+
+    for(int i = startNumberSearch; i <= endNumberSearch; i+=2){
+        numbersCubicRoot[counter] = pow(i, 3);
+        counter++;
+
         if(counter == 100){
             break;
         };
