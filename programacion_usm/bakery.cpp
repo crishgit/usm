@@ -27,7 +27,9 @@ The program displays the result:
 #include<iostream>
 using namespace std;
 
-
+int floor(int number){
+    return number;
+}
 
 bool year_is_leap(int year){ 
     // A year is a leap year if it is divisible by 4 
@@ -64,6 +66,29 @@ int increase_number_until_cap(int number, int capNumber, int startNumber = 1){
     }
     return number;
 };
+
+int days_diff_to_base(int dayTo, int monthTo, int yearTo, 
+        int dayBase , int monthBase , int yearBase ){
+    // days difference for years passed
+    int baseDiffToNextLeap = yearBase % 4;
+    int yearDiff = yearTo - yearBase;
+
+    int yearLeap = floor( (yearDiff - baseDiffToNextLeap + 4)/ 4);
+    int yearNotLeap = yearDiff - yearLeap;
+
+    int daysPassedYear = yearNotLeap*365 + yearLeap*366;
+
+    // days difference for month passed
+    int daysDiffForMonths = 0;
+    int fixedMonth = monthTo - 1; // Avoid actual month
+    for(int i = monthBase; i <= fixedMonth; i++){
+        daysDiffForMonths += get_month_long(i, yearTo);
+    }
+
+    // days difference for days passed
+    int daysPassedForDays = dayTo - dayBase;
+    return daysPassedForDays + daysDiffForMonths + daysPassedYear;
+}
 
 int main(){
     int userDay; int userMonth; int userYear;
@@ -113,34 +138,11 @@ int main(){
     // user range <
 
     // 1 de enero de 1995
-    // year range
-    bool dayFinded = false;
-    for(int year = 1995; year <= userYear; year++){
-        // month range
-        for(int month = 1; month <= 12; month++){
-            // day range
-            for(int day = 1; day <= get_month_long(month, year); day++){
-                // check if the date is the same as the user input
-                if((day == userDay) && (month == userMonth) && (year == userYear)){
-                    // check if the date is a day when the bakery will deliver the bread and change the stop flag
-                    if(fiveDaysCycle == 1){
-                        cout << "La panadería prestará servicio el día " << day << "/" << month << "/" << year << endl;
-                        dayFinded = true;
-                    }
-                    else cout << "La panadería no prestará servicio el día " << day << "/" << month << "/" << year << endl;
-                }
-                if(dayFinded){
-                    break;
-                }
-                // increase the fiveDaysCycle
-                fiveDaysCycle = increase_number_until_cap(fiveDaysCycle, 5);
-            };
-            if(dayFinded){
-                break;
-            }
-        }
-        if(dayFinded){
-            break;
-        }
+    int daysPassedTo1995 = days_diff_to_base(userDay, userMonth, userYear, 1, 1, 1995);
+    if(daysPassedTo1995 % 5 == 0){
+        cout << "La panadería prestará servicio el: " << userDay << "/" << userMonth << "/" << userYear << "\n";
     }
+    else cout << "La panadería no prestará servicio el: " << userDay << "/" << userMonth << "/" << userYear << "\n"; 
+
+    return 0;
 };
