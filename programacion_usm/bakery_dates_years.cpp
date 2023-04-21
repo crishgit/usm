@@ -1,6 +1,5 @@
 /*
-This program checks if a date is a day when the bakery will deliver the bread.
-(every 5 days after 1/1/95)
+This program display the dates of a year when the bakery will deliver bread.
 
 Steps:
 1. The user enters a date.
@@ -12,15 +11,16 @@ The program checks if the date is valid:
 - The year is greater than 1995.
 
 The program checks if the date is a day when the bakery will deliver the bread:
-- If the day passed from 1/1/95 is equal to: (multiple of 5) + 1; the bakery will deliver the bread.
+Every 5 days from 01/01/1995. So the program pass for all days and have
+a counter for know if 5 days has passed or not.
 
 The program displays the result:
 - Date in the format: dd/mm/yyyy. Example: 01/01/1995 - 02/03/1995.
 - And set a new line after 5 prints
+
+Author: Cristian Hernández, 10/04/23 (USM) 
+Version: 3 (21/04/23)
 */
-
-// Done by Cristian Hernández (10/04/2023) (Fixed: 17/04/2023) (USM)
-
 
 #include<iostream>
 using namespace std;
@@ -93,6 +93,12 @@ void display_date(int day, int month, int year, int datesPrintAmounts, int print
 };
 
 int days_diff_to_1995(int year){
+    // calculate the days that have passed between 1995 and a year.
+    // For that, calculate the amount of year leaps and normal years
+    // between 1995 and the year.
+    // For the leaps year, it's every 4 years between the first leap year passed
+    // the first leap year passed in 1997, so 2 years between 1995. 
+
     int yearsDiff = year - 1995;
     int yearLeap = floor( (yearsDiff + 2) / 4 ); 
     int yearNoLeap = yearsDiff - yearLeap;
@@ -104,7 +110,6 @@ int days_diff_to_1995(int year){
 int carry_fiveDaysCycle_to(int year, int fiveDaysCycle){
     int daysDiff = days_diff_to_1995(year);
     // daysPassed mod 5, because the cycles are in 5. 
-    // Add 1 to adjust for [0,4] to [1,5], correct value of the cycle
     int dayOfTheCycle = ((daysDiff + fiveDaysCycle) % 5);
 
     return dayOfTheCycle;
