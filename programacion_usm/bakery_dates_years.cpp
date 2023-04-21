@@ -94,7 +94,7 @@ void display_date(int day, int month, int year, int datesPrintAmounts, int print
 
 int days_diff_to_1995(int year){
     int yearsDiff = year - 1995;
-    int yearLeap = floor( (yearsDiff+3) / 4 ); 
+    int yearLeap = floor( (yearsDiff + 2) / 4 ); 
     int yearNoLeap = yearsDiff - yearLeap;
     
     int daysDiff = yearNoLeap*365 + yearLeap*366;
@@ -102,12 +102,12 @@ int days_diff_to_1995(int year){
 }
 
 int carry_fiveDaysCycle_to(int year, int fiveDaysCycle){
-    // that function have an error in some part
     int daysDiff = days_diff_to_1995(year);
-    int daysPassed = daysDiff + fiveDaysCycle;
-    daysPassed = daysPassed % 5;
+    // daysPassed mod 5, because the cycles are in 5. 
+    // Add 1 to adjust for [0,4] to [1,5], correct value of the cycle
+    int dayOfTheCycle = ((daysDiff + fiveDaysCycle) % 5);
 
-    return daysPassed;
+    return dayOfTheCycle;
 }
 
 int main(){
@@ -140,6 +140,7 @@ int main(){
     int datesPrintAmounts = 0;
     // Add a function to get the fiveDaysCycle to userYear
     fiveDaysCycle = carry_fiveDaysCycle_to(userYear, fiveDaysCycle);
+
     for(int year = userYear; year <= userYear; year++){
         // month range
         for(int month = 1; month <= 12; month++){
