@@ -27,7 +27,7 @@ bool year_is_leap(int year){
 };
 
 int get_month_long(int month, int year){
-    if ( (month == 4) OR (month == 6) OR (month == 9) OR (month == 11) ){
+    if ( (month == 4) or (month == 6) or (month == 9) or (month == 11) ){
         return 30;
     }
     else if (month == 2){
@@ -64,7 +64,7 @@ int main(){
             int monthLong = get_month_long(month, year);
 
             for(int day = 1; day <= monthLong; day++){
-                if( (year == userYear) AND (month == userMonth) AND (day == userDay) ){
+                if( (year == userYear) and (month == userMonth) and (day == userDay) ){
                     int placa = 2*counterPlaca - 1;
                     cout << "Las placas son: " << placa << " y " << (placa + 1) << endl;
                 };
