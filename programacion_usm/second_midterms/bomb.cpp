@@ -11,7 +11,6 @@ Author: Cristian Hernández (06/05/2023) (USM)
 */
 
 #include <iostream>
-#include <map>
 #include <conio.h>
 #include <windows.h>
 
@@ -75,43 +74,45 @@ int main () {
     string user_bomb_desactivation_code;
     bool bomb_working = true;
 
-    while( (bomb_time_explosion_seconds != 0) ){
-        // print the ui for bomb desactivation
+    // if the user press a key, check if the input is part of the code
+    if(kbhit() != 0){
+        char user_letter_try = getch();
+        int index_actual_char_code = user_bomb_desactivation_code.size();
+
+        // if the user letter is part of the code, add it to the code 
+        // guessed by the user, else, reduce 1 minute to time explosion
+        if(user_letter_try == bomb_desactivation_code[index_actual_char_code]){
+            user_bomb_desactivation_code += user_letter_try;
+        }
+        else{
+            bomb_time_explosion_seconds -= 60;
+        }
+    }
+
+    while( (bomb_time_explosion_seconds > 0) ){
+        // clear the screen
         system("cls");
+
+        // print the ui for bomb desactivation
         cout << "Bomb desactivation code: " << bomb_desactivation_code << endl;
         cout << "Time to explosion: " << bomb_time_explosion_seconds 
             << " seconds" << endl;
 
         cout << "Enter the code: ";
+
         // cout * for each letter of the code guessed for the user
         for(int i = 0; i < user_bomb_desactivation_code.size(); i++){
             cout << "*";
         }
 
-        // if the user press a key, check if the input is part of the code
-        if(kbit() != 0){
-            char user_letter_try = getch();
-            int index_actual_char_code = user_bomb_desactivation_code.size();
-
-            // if the user letter is part of the code, add it to the code 
-            // guessed by the user, else, reduce 1 minute to time explosion
-            if(user_letter_try == bomb_desactivation_code[index_actual_char_code]){
-                user_bomb_desactivation_code += user_letter_try;
-            }
-            else{
-                bomb_time_explosion_seconds -= 60;
-            }
-        }
-
         // if the user guessed the code, the bomb is desactivated
         if(user_bomb_desactivation_code == bomb_desactivation_code){
-            cout << endl << "Bomb desactivated!" << endl;
             bomb_working = false;
             break;
         }
 
         // Clock and sound of the bomb explosion every second
-        Beep(500, 1000);
+        Beep(500, 980);
         bomb_time_explosion_seconds--;
     }
 
