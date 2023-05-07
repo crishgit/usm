@@ -11,6 +11,7 @@ Author: Cristian Hernández (06/05/2023) (USM)
 */
 
 #include <iostream>
+#include <ctype.h>
 #include <conio.h>
 #include <windows.h>
 
@@ -76,7 +77,7 @@ int main () {
 
     // if the user press a key, check if the input is part of the code
     if(kbhit() != 0){
-        char user_letter_try = getch();
+        char user_letter_try = tolower( getch() );
         int index_actual_char_code = user_bomb_desactivation_code.size();
 
         // if the user letter is part of the code, add it to the code 
