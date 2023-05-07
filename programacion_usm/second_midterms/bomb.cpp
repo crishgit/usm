@@ -69,20 +69,32 @@ void explosionSound(){
 }
 
 int main () {
+    // Bomb variables
     int bomb_time_explosion_seconds = 300;
     string bomb_desactivation_code = getRandomBombDesactivationCode();
     string user_bomb_desactivation_code;
     bool bomb_working = true;
 
     while( (bomb_time_explosion_seconds != 0) ){
+        // print the ui for bomb desactivation
         system("cls");
         cout << "Bomb desactivation code: " << bomb_desactivation_code << endl;
-        cout << "Time to explosion: " << bomb_time_explosion_seconds << " seconds" << endl;
+        cout << "Time to explosion: " << bomb_time_explosion_seconds 
+            << " seconds" << endl;
+
         cout << "Enter the code: ";
+        // cout * for each letter of the code guessed for the user
+        for(int i = 0; i < user_bomb_desactivation_code.size(); i++){
+            cout << "*";
+        }
+
+        // if the user press a key, check if the input is part of the code
         if(kbit() != 0){
             char user_letter_try = getch();
             int index_actual_char_code = user_bomb_desactivation_code.size();
 
+            // if the user letter is part of the code, add it to the code 
+            // guessed by the user, else, reduce 1 minute to time explosion
             if(user_letter_try == bomb_desactivation_code[index_actual_char_code]){
                 user_bomb_desactivation_code += user_letter_try;
             }
@@ -91,6 +103,7 @@ int main () {
             }
         }
 
+        // if the user guessed the code, the bomb is desactivated
         if(user_bomb_desactivation_code == bomb_desactivation_code){
             cout << endl << "Bomb desactivated!" << endl;
             bomb_working = false;
@@ -102,6 +115,7 @@ int main () {
         bomb_time_explosion_seconds--;
     }
 
+    // if the bomb is not desactivated, the bomb explodes
     if(bomb_working){
         cout << endl << "Bomb exploded!!!!!!!!!!" << endl;
         explosionSound();
