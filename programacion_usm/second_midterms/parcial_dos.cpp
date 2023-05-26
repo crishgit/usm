@@ -127,6 +127,7 @@ int main(){
 			for (int i = 0; i < input_words.size(); i++) {
 				string actual_word = input_words[i];
 				cout << "Palabra" << i << "=" << actual_word; 
+				sleep(1);
 			}
 		}
 		else if(user_option == '#'){
