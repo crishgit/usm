@@ -4,7 +4,6 @@
 #include <map>
 #include <iostream>
 #include <iomanip>
-#include <typeinfo>
 using namespace std;
 
 
@@ -155,6 +154,7 @@ private:
     int columns_separation = 3;
     char columns_separator = '|';
     int rows_ammount = 0;
+    bool have_header = true;
 
     // ------------------ Private Methods ------------------ // 
     void calculateColumnsWidth(){
@@ -190,9 +190,26 @@ private:
         cout << endl;
     }
 
+    void printHeader(){
+        vector<string> header = this->vector_rows[0];
+        for(int column_i = 0; column_i < this->columns_ammount; column_i++){
+            string current_column = header[column_i];
+            int column_width = this->columns_width[column_i];
+            int blank_space = column_width + this->columns_separation - current_column.size();
+
+            cout << string(ceil(blank_space / 2.0), ' ') 
+                 << current_column
+                 << string(floor(blank_space / 2.0), ' ')
+                 << this->columns_separator;
+        }
+
+
+        cout << endl;
+    }
+
 public:
     Table(int columns_ammount, int columns_separation = 3, 
-          char columns_separator = '|'){
+          char columns_separator = '|', bool have_header = true){
 
         if(columns_ammount <= 0){
             throw invalid_argument("Columns ammount must be greater than 0");
@@ -204,6 +221,7 @@ public:
         this->columns_ammount = columns_ammount;
         this->columns_separation = columns_separation;
         this->columns_separator = columns_separator;
+        this->have_header = have_header;
     }
 
     void addRow (vector<string> row){
@@ -217,7 +235,14 @@ public:
 
     void printTable(){
         this->calculateColumnsWidth();
-        for(int row_i = 0; row_i < this->rows_ammount; row_i++){
+        int first_row_i = 0;
+
+        if(this->have_header){
+            this->printHeader();
+            first_row_i = 1;
+        }
+
+        for(int row_i = first_row_i; row_i < this->rows_ammount; row_i++){
             this->printRow(row_i);
         }
     }
