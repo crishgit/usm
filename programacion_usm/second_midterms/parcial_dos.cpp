@@ -7,6 +7,7 @@ Written for Linux
 #include <cmath>
 #include <unistd.h>
 #include <cstdio>
+#include <vector>
 using namespace std;
 
 void clearConsole(){
@@ -22,10 +23,10 @@ vector<string> wordsOfString(string string_to_parse){
 	by [space,non space] and ended in [non space, space]
 	*/
 
-	for(i = 0; i < string_to_parse.size() ; i++) {
+	for(int i = 0; i < string_to_parse.size() ; i++) {
 		char actual_char = string_to_parse[i];
-		bool actual_char_is_letter = actual_char != " ";
-		bool actual_char_is_space = actual_char == " ";
+		bool actual_char_is_letter = actual_char != ' ';
+		bool actual_char_is_space = actual_char == ' '; 
 
 		bool exist_next_char = false;
 		string next_char = "";
@@ -33,7 +34,7 @@ vector<string> wordsOfString(string string_to_parse){
 		bool next_char_is_space = false;
 
 		if( i+1 < string_to_parse.size() ){
-			exist_next_char = true
+			exist_next_char = true;
 			next_char = string_to_parse[i+1];
 			next_char_is_letter = next_char != " ";
 			next_char_is_space = next_char == " ";
@@ -96,7 +97,7 @@ int main(){
 	while(input_words.size() < 4){
 		cout << "Ingrese un texto de 4 palabras: " << "\n";
 		getline(cin, input_text);
-		input_words = wordsOfString(input_words);
+		input_words = wordsOfString(input_text);
 
 		cin.ignore();
 		clearConsole();
