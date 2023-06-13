@@ -356,13 +356,14 @@ int main () {
     cout << "\n\n";
 
     table_debt.printTable();
+    cout << "\n";
     // Printing Table End
 
     // Printing Report
     map<string, double> debt_report_data = user_debt.getReportData();
     map<string, double> debt_current_data = user_debt.getCurrentMonthData();
 
-    cout << "\n";
+    cout << "Reporte de Pago:";
 
     cout << "En el plazo de " << debt_current_data["months_paying"] << " meses (de " 
          << input_months << " meses), se pagaron "
@@ -379,8 +380,8 @@ int main () {
 
     // extraordinary pays report
     // the left 
-    if(debt_report_data["left_extraordinary_pay"] > 0){
-        cout << "Quedaron " << to_string_with_N_decimals(debt_report_data["left_extraordinary_pay"]) 
+    if(debt_report_data["left_extraordinary_pays"] > 0){
+        cout << "Quedaron " << to_string_with_N_decimals(debt_report_data["left_extraordinary_pays"]) 
              << "$ de pagos extraordinarios sin usar.\n";
     }
     else{
