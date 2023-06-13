@@ -176,8 +176,6 @@ private:
     }
 
     void printRow(int row_index){
-        // format:
-        // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
         vector<string> row = this->vector_rows[row_index];
         for(int column_i = 0; column_i < this->columns_ammount; column_i++){
             string column = row[column_i];
@@ -261,18 +259,72 @@ string to_string_with_N_decimals(double number, int decimals = 2){
     return ss.str();
 }
 
-int main () {
-    double ptDebt = 20000.0;
-    double ptInterest = 3.0;
-    int ptMonth = 24;
-    map<int, double> extraordinary_pays = {
-        {12, 3000.0}
-    };
+double secureCinDouble(){
+    double number = 0;
+    cin >> number;
+    cin.clear();
+    cin.ignore();
 
-    Debt user_debt(ptDebt, ptInterest, ptMonth, extraordinary_pays);
+    return number;
+}
+
+int main () {
+    // Inputs: debt, interest, months, extraordinary pays
+    double input_debt = 0.0;
+    double input_interest = 0.0;
+    double input_months = 0.0;
+    map<int, double> input_extraordinary_pays = {};
+    string user_adding_extra = "no";
+
+    // User Inputs
+    while(input_debt <= 0.0){
+        cout << "Ingrese el monto de la deuda: ";
+        input_debt = secureCinDouble();
+    }
+
+    while(input_interest <= 0.0){
+        cout << "Ingrese el interes de la deuda: ";
+        input_interest = secureCinDouble();
+    }
+
+    while(input_months <= 0.0){
+        cout << "Ingrese la cantidad de meses: ";
+        input_months = secureCinDouble();
+    }
+
+    cout << "\n";
+    cout << "Desea agregar un pago extraordinario? (si/no): ";
+    cin >> user_adding_extra;
+
+    while(user_adding_extra == "si"){
+        double input_extra_month = 0.0;
+        double input_extra_ammount = 0.0;
+
+        while(input_extra_month <= 0.0 || input_extra_month > input_months){
+            cout << "Ingrese el mes del pago extraordinario: ";
+            input_extra_month = secureCinDouble();
+        }
+
+        while(input_extra_ammount <= 0.0){
+            cout << "Ingrese el monto del pago extraordinario: ";
+            input_extra_ammount = secureCinDouble();
+        }
+
+        input_extraordinary_pays[input_extra_month] += input_extra_ammount;
+
+        cout << "\n";
+        cout << "Desea agregar otro pago extraordinario? (si/no): ";
+        cin >> user_adding_extra; 
+        cin.clear();
+        cin.ignore();
+    }
+
+    // Table Setting
+    Debt user_debt(input_debt, input_interest, input_months, input_extraordinary_pays);
     Table table_debt(7, 2);
+
     vector<string> header_debt_table = {"Mes", "Deuda Pagada", "Interes Pagado", "Deuda", 
-                          "Pago Extraordinario", "Interes Total", 
+                          "Pago Extra", "Interes Total", 
                           "Total Pagado"};
     table_debt.addRow(header_debt_table);
 
@@ -294,7 +346,47 @@ int main () {
         );
     }
     
+    // Printing Table Start
+    system("clear");
+    cout << "Corrida de pagos de una deuda de " << input_debt << "$, con un interes de " 
+         << input_interest << "%, en " << input_months << " meses."; 
+    if(input_extraordinary_pays.size() > 0){
+        cout << " Con pagos extraordinarios.";
+    }
+    cout << "\n\n";
+
     table_debt.printTable();
+    // Printing Table End
+
+    // Printing Report
+    map<string, double> debt_report_data = user_debt.getReportData();
+    map<string, double> debt_current_data = user_debt.getCurrentMonthData();
+
+    cout << "\n";
+
+    cout << "En el plazo de " << debt_current_data["months_paying"] << " meses (de " 
+         << input_months << " meses), se pagaron "
+         << to_string_with_N_decimals(debt_report_data["total_paid"]) 
+         << "$, de los cuales " 
+         << to_string_with_N_decimals(debt_report_data["total_interest_paid"]) 
+         << "$ fueron de intereses."
+         << "\n";
+
+    cout << "Se paga un " << to_string_with_N_decimals(debt_report_data["total_paid"] / input_debt * 100) 
+         << "% de la deuda inicial, y el " 
+         << to_string_with_N_decimals(debt_report_data["total_interest_paid"] / debt_report_data["total_paid"] * 100) 
+         << "% del pago son intereses.\n";
+
+    // extraordinary pays report
+    // the left 
+    if(debt_report_data["left_extraordinary_pay"] > 0){
+        cout << "Quedaron " << to_string_with_N_decimals(debt_report_data["left_extraordinary_pay"]) 
+             << "$ de pagos extraordinarios sin usar.\n";
+    }
+    else{
+        cout << "Se usaron todos los pagos extraordinarios.\n";
+    }
+
 
     return 0;
 }
