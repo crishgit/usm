@@ -347,7 +347,7 @@ int main () {
     }
     
     // Printing Table Start
-    system("clear");
+    system("cls");
     cout << "Corrida de pagos de una deuda de " << input_debt << "$, con un interes de " 
          << input_interest << "%, en " << input_months << " meses."; 
     if(input_extraordinary_pays.size() > 0){
